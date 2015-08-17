@@ -1,0 +1,6 @@
+<client id="test/C282166" remove="false">
+    <currency>RUR</currency>
+    <type>leverage</type>
+    <ml_intraday>1</ml_intraday>
+    <ml_overnight>1</ml_overnight>
+</client>

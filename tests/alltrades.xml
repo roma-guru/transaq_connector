@@ -1,0 +1,32 @@
+<alltrades>
+    <trade secid="14">
+        <tradeno>2691161107</tradeno>
+        <board>TQBR</board>
+        <time>08.08.2015 23:06:34</time>
+        <price>102.5</price>
+        <quantity>6</quantity>
+        <buysell>B</buysell>
+        <seccode>SBER03</seccode>
+        <period>N</period>
+    </trade>
+    <trade secid="14">
+        <tradeno>2691161113</tradeno>
+        <board>TQBR</board>
+        <time>08.08.2015 23:06:36</time>
+        <price>102.5</price>
+        <quantity>118</quantity>
+        <buysell>B</buysell>
+        <seccode>SBER03</seccode>
+        <period>N</period>
+    </trade>
+    <trade secid="21">
+        <tradeno>2691161114</tradeno>
+        <board>TQBR</board>
+        <time>08.08.2015 23:06:36</time>
+        <price>237.42</price>
+        <quantity>1</quantity>
+        <buysell>S</buysell>
+        <seccode>MTSI</seccode>
+        <period>N</period>
+    </trade>
+</alltrades>

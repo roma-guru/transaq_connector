@@ -1,0 +1,3 @@
+<server_status server_tz="Arab Standard Time" id="0" connected="false"/>
+<server_status server_tz="Arab Standard Time" id="0" connected="true"/>
+<server_status connected="error">Пользователь с таким идентификатором уже подключен к серверу</server_status>

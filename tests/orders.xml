@@ -1,0 +1,89 @@
+<orders>
+    <order transactionid="4581">
+        <orderno>2693279377</orderno>
+        <secid>21</secid>
+        <board>TQBR</board>
+        <seccode>MTSI</seccode>
+        <client>test/C282166</client>
+        <status>matched</status>
+        <buysell>B</buysell>
+        <time>10.08.2015 16:11:30</time>
+        <brokerref></brokerref>
+        <value>7539.3</value>
+        <accruedint>0.0</accruedint>
+        <settlecode>Y2</settlecode>
+        <balance>0</balance>
+        <price>0.0</price>
+        <quantity>3</quantity>
+        <hidden>0</hidden>
+        <yield>0.0</yield>
+        <withdrawtime>0</withdrawtime>
+        <condition>None</condition>
+        <maxcomission>0.0</maxcomission>
+        <result></result>
+    </order>
+    <order transactionid="4531">
+        <orderno>2693271069</orderno>
+        <secid>21</secid>
+        <board>TQBR</board>
+        <seccode>MTSI</seccode>
+        <client>test/C282166</client>
+        <status>active</status>
+        <buysell>S</buysell>
+        <time>10.08.2015 16:05:20</time>
+        <brokerref></brokerref>
+        <value>7264.5</value>
+        <accruedint>0.0</accruedint>
+        <settlecode>Y2</settlecode>
+        <balance>3</balance>
+        <price>242.15</price>
+        <quantity>3</quantity>
+        <hidden>0</hidden>
+        <yield>0.0</yield>
+        <withdrawtime>0</withdrawtime>
+        <condition>None</condition>
+        <maxcomission>0.0</maxcomission>
+        <result></result>
+    </order>
+    <stoporder transactionid="4571">
+        <activeorderno>2693279377</activeorderno>
+        <secid>21</secid>
+        <board>TQBR</board>
+        <seccode>MTSI</seccode>
+        <client>test/C282166</client>
+        <buysell>B</buysell>
+        <canceller>00000282166</canceller>
+        <alltradeno>2693113024</alltradeno>
+        <validbefore>10.08.2015 16:30:00</validbefore>
+        <author>00000282166</author>
+        <accepttime>10.08.2015 16:11:26</accepttime>
+        <status>tp_executed</status>
+        <takeprofit>
+            <activationprice>242.0</activationprice>
+            <quantity>3</quantity>
+            <extremum>239.11</extremum>
+            <level>239.12</level>
+            <correction>0.01</correction>
+        </takeprofit>
+        <withdrawtime>0</withdrawtime>
+        <result>TP исполнен</result>
+    </stoporder>
+    <stoporder transactionid="4561">
+        <secid>21</secid>
+        <board>TQBR</board>
+        <seccode>MTSI</seccode>
+        <client>test/C282166</client>
+        <buysell>B</buysell>
+        <canceller>00000282166</canceller>
+        <validbefore>10.08.2015 16:30:00</validbefore>
+        <author>00000282166</author>
+        <accepttime>10.08.2015 16:11:26</accepttime>
+        <status>watching</status>
+        <stoploss usecredit="yes">
+            <activationprice>243.0</activationprice>
+            <quantity>3</quantity>
+            <bymarket/>
+        </stoploss>
+        <withdrawtime>0</withdrawtime>
+    </stoporder>
+</orders>

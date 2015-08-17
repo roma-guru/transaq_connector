@@ -1,0 +1,23 @@
+<quotes>
+    <quote secid="1">
+        <board>TQBR</board>
+        <seccode>GAZP</seccode>
+        <price>169.7</price>
+        <yield>0</yield>
+        <buy>1</buy>
+    </quote>
+    <quote secid="3">
+        <board>TQBR</board>
+        <seccode>LKOH</seccode>
+        <price>1750.29</price>
+        <yield>0</yield>
+        <sell>-1</sell>
+    </quote>
+    <quote secid="3">
+        <board>TQBR</board>
+        <seccode>LKOH</seccode>
+        <price>1750.29</price>
+        <yield>0</yield>
+        <buy>34</buy>
+    </quote>
+</quotes>

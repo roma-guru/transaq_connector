@@ -1,0 +1,23 @@
+<pits>
+    <pit seccode="VTBR" board="TQBR">
+        <market>1</market>
+        <decimals>4</decimals>
+        <minstep>0.0001</minstep>
+        <lotsize>100</lotsize>
+        <point_cost>0.01</point_cost>
+    </pit>
+    <pit seccode="GAZP" board="TQBR">
+        <market>1</market>
+        <decimals>2</decimals>
+        <minstep>0.01</minstep>
+        <lotsize>1</lotsize>
+        <point_cost>1</point_cost>
+    </pit>
+    <pit seccode="GMKN" board="TQBR">
+        <market>1</market>
+        <decimals>2</decimals>
+        <minstep>0.01</minstep>
+        <lotsize>1</lotsize>
+        <point_cost>1</point_cost>
+    </pit>
+</pits>

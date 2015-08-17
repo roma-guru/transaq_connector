@@ -1,0 +1,17 @@
+<boards>
+    <board id="AUCT">
+        <name>Аукцион</name>
+        <market>1</market>
+        <type>2</type>
+    </board>
+    <board id="TQBR">
+        <name>Т+ А1-Акции паи и РДР</name>
+        <market>1</market>
+        <type>1</type>
+    </board>
+    <board id="TQBS">
+        <name>Т+ А2-Акции и паи</name>
+        <market>1</market>
+        <type>1</type>
+    </board>
+</boards>

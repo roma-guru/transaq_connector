@@ -1,0 +1,14 @@
+<max_buy_sell_tplus client="test/C282166">
+    <security secid="21">
+        <market>1</market>
+        <seccode>MTSI</seccode>
+        <maxbuy>136</maxbuy>
+        <maxsell>100</maxsell>
+    </security>
+    <security secid="1">
+        <market>1</market>
+        <seccode>GAZP</seccode>
+        <maxbuy>1432</maxbuy>
+        <maxsell>1438</maxsell>
+    </security>
+</max_buy_sell_tplus>

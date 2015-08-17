@@ -1,0 +1,47 @@
+<securities>
+    <security secid="0" active="true">
+        <sec_tz>
+            <![CDATA[Arab Standard Time]]>
+        </sec_tz>
+        <seccode>VTBR</seccode>
+        <board>TQBR</board>
+        <shortname>ВТБ ао</shortname>
+        <decimals>4</decimals>
+        <market>1</market>
+        <sectype>SHARE</sectype>
+        <opmask usecredit="yes" bymarket="yes" nosplit="yes" immorcancel="yes" cancelbalance="yes" />
+        <minstep>0.0001</minstep>
+        <lotsize>100</lotsize>
+        <point_cost>0.01</point_cost>
+    </security>
+    <security secid="1" active="true">
+        <sec_tz>
+            <![CDATA[Arab Standard Time]]>
+        </sec_tz>
+        <seccode>GAZP</seccode>
+        <board>TQBR</board>
+        <shortname>Газпром ао</shortname>
+        <decimals>2</decimals>
+        <market>1</market>
+        <sectype>SHARE</sectype>
+        <opmask usecredit="yes" bymarket="yes" nosplit="yes" immorcancel="yes" cancelbalance="yes" />
+        <minstep>0.01</minstep>
+        <lotsize>1</lotsize>
+        <point_cost>1</point_cost>
+    </security>
+    <security secid="2" active="true">
+        <sec_tz>
+            <![CDATA[Arab Standard Time]]>
+        </sec_tz>
+        <seccode>GMKN</seccode>
+        <board>TQBR</board>
+        <shortname>ГМКНорНик</shortname>
+        <decimals>2</decimals>
+        <market>1</market>
+        <sectype>SHARE</sectype>
+        <opmask usecredit="yes" bymarket="yes" nosplit="yes" immorcancel="yes" cancelbalance="yes" />
+        <minstep>0.01</minstep>
+        <lotsize>1</lotsize>
+        <point_cost>1</point_cost>
+    </security>
+</securities>

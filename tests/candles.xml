@@ -1,0 +1,5 @@
+<candles secid="0" board="TQBR" seccode="VTBR" period="1" status="1">
+	<candle date="11.08.2015 23:07:00" open="0.1039" close="0.1039" high="0.1039" low="0.1039" volume="807402"/>
+	<candle date="11.08.2015 23:08:00" open="0.1037" close="0.1037" high="0.1037" low="0.1037" volume="257485"/>
+	<candle date="11.08.2015 23:09:00" open="0.1038" close="0.1037" high="0.1038" low="0.1037" volume="541004"/>
+</candles>

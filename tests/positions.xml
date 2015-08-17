@@ -1,0 +1,45 @@
+<positions>
+    <sec_position>
+        <client>test/C282166</client>
+        <secid>1</secid>
+        <market>1</market>
+        <shortname>Газпром ао</shortname>
+        <seccode>GAZP</seccode>
+        <saldoin>3</saldoin>
+        <saldomin>0</saldomin>
+        <bought>0</bought>
+        <sold>0</sold>
+        <saldo>3</saldo>
+        <ordbuy>0</ordbuy>
+        <ordsell>0</ordsell>
+    </sec_position>
+    <sec_position>
+        <client>test/C282166</client>
+        <secid>21</secid>
+        <market>1</market>
+        <shortname>МТС-ао</shortname>
+        <seccode>MTSI</seccode>
+        <saldoin>0</saldoin>
+        <saldomin>0</saldomin>
+        <bought>0</bought>
+        <sold>0</sold>
+        <saldo>0</saldo>
+        <ordbuy>0</ordbuy>
+        <ordsell>0</ordsell>
+    </sec_position>
+    <money_position>
+        <client>test/C282166</client>
+        <markets>
+            <market>1</market>
+        </markets>
+        <asset>FOND_MICEX</asset>
+        <shortname>Рубли РФ КЦБ ММВБ</shortname>
+        <saldoin>290855.36</saldoin>
+        <bought>0.0</bought>
+        <sold>0.0</sold>
+        <saldo>290855.36</saldo>
+        <ordbuy>0.0</ordbuy>
+        <ordbuycond>0.0</ordbuycond>
+        <comission>0.0</comission>
+    </money_position>
+</positions>

@@ -1,0 +1,44 @@
+<trades>
+    <trade>
+        <secid>21</secid>
+        <tradeno>2693113027</tradeno>
+        <orderno>2693279377</orderno>
+        <board>TQBR</board>
+        <seccode>MTSI</seccode>
+        <client>test/C282166</client>
+        <buysell>B</buysell>
+        <time>10.08.2015 16:11:30</time>
+        <brokerref></brokerref>
+        <value>7180.5</value>
+        <comission>0.0</comission>
+        <price>239.35</price>
+        <quantity>3</quantity>
+        <items>30</items>
+        <yield>0.0</yield>
+        <currentpos>30</currentpos>
+        <accruedint>0.0</accruedint>
+        <tradetype>T</tradetype>
+        <settlecode>Y2</settlecode>
+    </trade>
+    <trade>
+        <secid>21</secid>
+        <tradeno>2692109248</tradeno>
+        <orderno>2692232421</orderno>
+        <board>TQBR</board>
+        <seccode>MTSI</seccode>
+        <client>test/C282166</client>
+        <buysell>S</buysell>
+        <time>09.08.2015 15:32:40</time>
+        <brokerref></brokerref>
+        <value>2415.2</value>
+        <comission>0.0</comission>
+        <price>241.52</price>
+        <quantity>1</quantity>
+        <items>10</items>
+        <yield>0.0</yield>
+        <currentpos>-10</currentpos>
+        <accruedint>0.0</accruedint>
+        <tradetype>T</tradetype>
+        <settlecode>Y2</settlecode>
+    </trade>
+</trades>

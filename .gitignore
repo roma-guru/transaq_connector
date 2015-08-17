@@ -1,0 +1,6 @@
+.spyder*
+*.pyc
+.sublime*
+Logs/
+.idea/
+pair/
