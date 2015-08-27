@@ -6,23 +6,22 @@ Created on Wed Aug 05 17:09:45 2015
 """
 
 import unittest as ut
-from txmlstructures import *
+from structures import *
 from datetime import datetime as dt
 
 
 class TestClientOrders(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/orders.xml').read()
-        cls.packet = ClientOrderPacket.parse(xml)
+        cls.obj = ClientOrderPacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, ClientOrderPacket)
-        self.assertEqual(len(self.packet.items), 4)
+        self.assertIsInstance(self.obj, ClientOrderPacket)
+        self.assertEqual(len(self.obj.items), 4)
 
     def test_order1(self):
-        o = self.packet.items[0]
+        o = self.obj.items[0]
         self.assertIsInstance(o, Order)
         self.assertEqual(o.id, 4581)
         self.assertEqual(o.order_no, 2693279377)
@@ -48,7 +47,7 @@ class TestClientOrders(ut.TestCase):
         self.assertEqual(o.result, '')
 
     def test_order2(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertIsInstance(o, Order)
         self.assertEqual(o.id, 4531)
         self.assertEqual(o.order_no, 2693271069)
@@ -74,7 +73,7 @@ class TestClientOrders(ut.TestCase):
         self.assertEqual(o.result, '')
 
     def test_order3(self):
-        o = self.packet.items[2]
+        o = self.obj.items[2]
         self.assertIsInstance(o, TakeProfit)
         self.assertEqual(o.id, 4571)
         self.assertEqual(o.order_no, 2693279377)
@@ -98,7 +97,7 @@ class TestClientOrders(ut.TestCase):
         self.assertEqual(o.result, u"TP исполнен")
 
     def test_order4(self):
-        o = self.packet.items[3]
+        o = self.obj.items[3]
         self.assertIsInstance(o, StopLoss)
         self.assertEqual(o.id, 4561)
         self.assertEqual(o.secid, 21)
@@ -118,14 +117,13 @@ class TestClientOrders(ut.TestCase):
 
 
 class TestClientTrades(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/trades.xml').read()
-        cls.packet = ClientTradePacket.parse(xml)
+        cls.obj = ClientTradePacket.parse(xml)
 
     def test_trade1(self):
-        o = self.packet.items[0]
+        o = self.obj.items[0]
         self.assertIsInstance(o, ClientTrade)
         self.assertEqual(o.secid, 21)
         self.assertEqual(o.id, 2693113027)
@@ -147,7 +145,7 @@ class TestClientTrades(ut.TestCase):
         self.assertEqual(o.settle_code, 'Y2')
 
     def test_trade2(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertIsInstance(o, ClientTrade)
         self.assertEqual(o.secid, 21)
         self.assertEqual(o.id, 2692109248)
@@ -169,17 +167,18 @@ class TestClientTrades(ut.TestCase):
         self.assertEqual(o.settle_code, 'Y2')
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, ClientTradePacket)
-        self.assertEqual(len(self.packet.items), 2)
+        self.assertIsInstance(self.obj, ClientTradePacket)
+        self.assertEqual(len(self.obj.items), 2)
 
 
 class TestClientPortfolio(ut.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         xml = open('tests/portfolio.xml').read()
-        self.portfolio = ClientPortfolio.parse(xml)
+        cls.obj = ClientPortfolio.parse(xml)
 
     def test_portfolio_tplus(self):
-        o = self.portfolio
+        o = self.obj
         self.assertIsInstance(o, ClientPortfolio)
         self.assertEqual(o.client, 'test/C282166')
         self.assertEqual(o.coverage_fact, 56325.08)
@@ -280,7 +279,6 @@ class TestClientPortfolio(ut.TestCase):
 
 
 class TestServerStatuses(ut.TestCase):
-    statuses = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/server_statuses.xml').readlines()
@@ -314,14 +312,13 @@ class TestServerStatuses(ut.TestCase):
 
 
 class TestHistoryCandles(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/candles.xml').read()
-        cls.packet = HistoryCandlePacket.parse(xml)
+        cls.obj = HistoryCandlePacket.parse(xml)
 
     def test_packet(self):
-        o = self.packet
+        o = self.obj
         self.assertIsInstance(o, HistoryCandlePacket)
         self.assertEqual(len(o.items), 3)
         self.assertEqual(o.board, 'TQBR')
@@ -330,7 +327,7 @@ class TestHistoryCandles(ut.TestCase):
         self.assertEqual(o.status, 1)
 
     def test_candle1(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertEqual(o.date, dt(2015,8,11,23,8))
         self.assertEqual(o.open, 0.1037)
         self.assertEqual(o.close, 0.1037)
@@ -403,12 +400,13 @@ class TestCmdResults(ut.TestCase):
 
 
 class TestClientAccount(ut.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         xml = open('tests/account.xml').read()
-        self.account = ClientAccount.parse(xml)
+        cls.obj = ClientAccount.parse(xml)
 
     def test_account(self):
-        o = self.account
+        o = self.obj
         self.assertEqual(o.id, "test/C282166")
         self.assertEqual(o.active, True)
         self.assertEqual(o.currency, "RUR")
@@ -426,18 +424,17 @@ class TestMarkets(ut.TestCase):
 
 
 class TestSecurity(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/securities.xml').read()
-        cls.packet = SecurityPacket.parse(xml)
+        cls.obj = SecurityPacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, SecurityPacket)
-        self.assertEqual(len(self.packet.items), 3)
+        self.assertIsInstance(self.obj, SecurityPacket)
+        self.assertEqual(len(self.obj.items), 3)
 
     def test_sec1(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertEqual(o.id, 1)
         self.assertEqual(o.active, True)
         self.assertEqual(o.seccode, 'GAZP')
@@ -462,18 +459,17 @@ class TestQuotations(ut.TestCase):
 
 
 class TestSubscribedTicks(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/alltrades.xml').read()
-        cls.packet = TradePacket.parse(xml)
+        cls.obj = TradePacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, TradePacket)
-        self.assertEqual(len(self.packet.items), 3)
+        self.assertIsInstance(self.obj, TradePacket)
+        self.assertEqual(len(self.obj.items), 3)
 
     def test_tik1(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertEqual(o.id, 2691161113)
         self.assertEqual(o.secid, 14)
         self.assertEqual(o.seccode, 'SBER03')
@@ -487,18 +483,17 @@ class TestSubscribedTicks(ut.TestCase):
 
 
 class TestSubscribedBidAsks(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/quotes.xml').read()
-        cls.packet = QuotePacket.parse(xml)
+        cls.obj = QuotePacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, QuotePacket)
-        self.assertEqual(len(self.packet.items), 3)
+        self.assertIsInstance(self.obj, QuotePacket)
+        self.assertEqual(len(self.obj.items), 3)
 
     def test_quote1(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertEqual(o.secid, 3)
         self.assertEqual(o.board, 'TQBR')
         self.assertEqual(o.seccode, 'LKOH')
@@ -508,7 +503,7 @@ class TestSubscribedBidAsks(ut.TestCase):
         self.assertEqual(o.yld, 0)
 
     def test_quote2(self):
-        o = self.packet.items[0]
+        o = self.obj.items[0]
         self.assertEqual(o.secid, 1)
         self.assertEqual(o.board, 'TQBR')
         self.assertEqual(o.seccode, 'GAZP')
@@ -519,18 +514,17 @@ class TestSubscribedBidAsks(ut.TestCase):
 
 
 class TestClientPositions(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/positions.xml').read()
-        cls.packet = PositionPacket.parse(xml)
+        cls.obj = PositionPacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, PositionPacket)
-        self.assertEqual(len(self.packet.items), 3)
+        self.assertIsInstance(self.obj, PositionPacket)
+        self.assertEqual(len(self.obj.items), 3)
 
     def test_pos1(self):
-        o = self.packet.items[0]
+        o = self.obj.items[0]
         self.assertIsInstance(o, SecurityPosition)
         self.assertEqual(o.secid, 1)
         self.assertEqual(o.market, 1)
@@ -546,7 +540,7 @@ class TestClientPositions(ut.TestCase):
         self.assertEqual(o.order_sell, 0)
 
     def test_pos2(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertIsInstance(o, SecurityPosition)
         self.assertEqual(o.secid, 21)
         self.assertEqual(o.market, 1)
@@ -562,7 +556,7 @@ class TestClientPositions(ut.TestCase):
         self.assertEqual(o.order_sell, 0)
 
     def test_pos3(self):
-        o = self.packet.items[2]
+        o = self.obj.items[2]
         self.assertIsInstance(o, MoneyPosition)
         self.assertEqual(o.market, [1])
         self.assertEqual(o.client, 'test/C282166')
@@ -578,12 +572,13 @@ class TestClientPositions(ut.TestCase):
 
 
 class TestLimitsTPlus(ut.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         xml = open('tests/limits_t+.xml').read()
-        self.limits = ClientLimitsTPlus.parse(xml)
+        cls.obj = ClientLimitsTPlus.parse(xml)
 
     def test_limits(self):
-        o = self.limits
+        o = self.obj
         self.assertIsInstance(o, ClientLimitsTPlus)
         self.assertEqual(o.client, 'test/C282166')
         self.assertEqual(len(o.securities), 2)
@@ -602,18 +597,17 @@ class TestLimitsTPlus(ut.TestCase):
 
 
 class TestPits(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/pits.xml').read()
-        cls.packet = SecurityPitPacket.parse(xml)
+        cls.obj = SecurityPitPacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, SecurityPitPacket)
-        self.assertEqual(len(self.packet.items), 3)
+        self.assertIsInstance(self.obj, SecurityPitPacket)
+        self.assertEqual(len(self.obj.items), 3)
 
     def test_pit1(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertEqual(o.seccode, 'GAZP')
         self.assertEqual(o.board, 'TQBR')
         self.assertEqual(o.market, 1)
@@ -624,18 +618,17 @@ class TestPits(ut.TestCase):
 
 
 class TestBoards(ut.TestCase):
-    packet = None
     @classmethod
     def setUpClass(cls):
         xml = open('tests/boards.xml').read()
-        cls.packet = BoardPacket.parse(xml)
+        cls.obj = BoardPacket.parse(xml)
 
     def test_packet(self):
-        self.assertIsInstance(self.packet, BoardPacket)
-        self.assertEqual(len(self.packet.items), 3)
+        self.assertIsInstance(self.obj, BoardPacket)
+        self.assertEqual(len(self.obj.items), 3)
 
     def test_board1(self):
-        o = self.packet.items[1]
+        o = self.obj.items[1]
         self.assertEqual(o.id, 'TQBR')
         self.assertEqual(o.market, 1)
         self.assertEqual(o.type, 1)
@@ -657,5 +650,41 @@ class TestCreditAbility(ut.TestCase):
         self.assertEqual(o.overnight, True)
         self.assertEqual(o.intraday, False)
 
-if __name__=='__main__':
+
+@ut.skip('No data for sec_info')
+class TestSecInfo(ut.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        xml = open('tests/secinfo.xml').read()
+        cls.obj = SecInfo.parse(xml)
+
+    def test_secinfo(self):
+        o = self.obj
+        self.assertEqual(o.secname, '')
+
+
+@ut.skip('No data for sec_info_upd')
+class TestSecInfoUpd(ut.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        xml = open('tests/secinfoupd.xml').read()
+        cls.obj = SecInfo.parse(xml)
+
+    def test_secinfo_upd(self):
+        o = self.obj
+        self.assertEqual(o.secname, '')
+
+@ut.skip('No data for mct portfolio')
+class TestPortfolioMCT(ut.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        xml = open('tests/portfolio_mct.xml').read()
+        cls.obj = ClientPortfolioMCT.parse(xml)
+
+    def test(self):
+        o = self.obj
+        self.assertEqual(o.secname, '')
+
+
+if __name__ == '__main__':
     ut.main()
