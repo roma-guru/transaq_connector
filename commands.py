@@ -1,20 +1,30 @@
 # -*- coding: utf-8 -*-
 """
 Модуль с основными командами Транзак Коннектора.
+<a href="http://www.finam.ru/howtotrade/tconnector/">Документация коннектора</a>
 
 @author: Roma
+.. warning::
+    Практически все команды асинхронны!
+    Это означает что они возвращают структуру CmdResult, которая говорит лишь
+    об успешности отправки команды на сервер, но не её исполнения там.
+    Результат исполнения приходит позже в зарегистрированный командой initialize хэндлер.
+    Синхронные вспомогательные команды помечены отдельно.
 """
 import ctypes, logging
+import platform
 import lxml.etree as et
-from txmlstructures import *
+from structures import *
 log = logging.getLogger("transaq.connector")
 
 
 def callback(msg):
     """
     Функция, вызываемая коннектором при входящих сообщениях.
-    :param msg: входящее сообщение Транзака
-    :return: True если все обработал
+    :param msg:
+        Входящее сообщение Транзака.
+    :return:
+        True если все обработал.
     """
     obj = parse(msg)
     if isinstance(obj, Error):
@@ -79,27 +89,33 @@ def callback(msg):
 callback_func = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_char_p)
 callback_func = callback_func(callback)
 global_handler = None
-txml_dll = ctypes.WinDLL("txmlconnector64.dll")
+txml_dll = ctypes.WinDLL("txmlconnector64.dll" if platform.machine()=='AMD64' else 'txmlconnector.dll')
 connected = False
 
 
 class TransaqException(Exception):
+    """
+    Класс исключений, связанных с коннектором.
+    """
     pass
 
 
 def __get_message(ptr):
+    # Достать сообщение из нативной памяти.
     msg = ctypes.string_at(ptr)
     txml_dll.FreeMemory(ptr)
     return msg
 
 
 def __elem(tag, text):
+    # Создать элемент с заданным текстом.
     elem = et.Element(tag)
     elem.text = text
     return elem
 
 
 def __send_command(cmd):
+    # Отправить команду и проверить на ошибки.
     msg = __get_message(txml_dll.SendCommand(cmd))
     err = Error.parse(msg)
     if err.text:
@@ -109,6 +125,12 @@ def __send_command(cmd):
 
 
 def initialize(logdir, loglevel, msg_handler):
+    """
+    Инициализация коннектора (синхронная).
+    :param logdir:
+    :param loglevel:
+    :param msg_handler:
+    """
     global global_handler
     global_handler = msg_handler
     err = txml_dll.Initialize(logdir + "\0", loglevel)
@@ -120,6 +142,10 @@ def initialize(logdir, loglevel, msg_handler):
 
 
 def uninitialize():
+    """
+    Де-инициализация коннектора (синхронная).
+    :return:
+    """
     if connected:
         disconnect()
     err = txml_dll.UnInitialize()
@@ -289,11 +315,32 @@ def get_portfolio(client):
 
 
 def get_markets():
+    """
+    Получить список рынков.
+    :return:
+        Результат отправки команды.
+    """
     root = et.Element("command", {"id": "get_markets"})
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
 def get_history(board, seccode, period, count, reset=True):
+    """
+    Выдать последние N свечей заданного периода, по заданному инструменту.
+    :param board:
+        Идентификатор режима торгов.
+    :param seccode:
+        Код инструмента.
+    :param period:
+        Идентификатор периода.
+    :param count:
+        Количество свечей.
+    :param reset:
+        Параметр reset="true" говорит, что нужно выдавать самые свежие данные, в
+        противном случае будут выданы свечи в продолжение предыдущего запроса.
+    :return:
+        Результат отправки команды.
+    """
     root = et.Element("command", {"id": "gethistorydata"})
     sec = et.Element("security")
     sec.append(__elem("board", board))
@@ -305,44 +352,121 @@ def get_history(board, seccode, period, count, reset=True):
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
+# TODO Доделать условные заявки
 def new_condorder(board, ticker, client, buysell, quantity, price,
                   cond_type, cond_val, valid_after, valid_before,
                   bymarket=True, usecredit=True):
+    """
+    Новая условная заявка.
+    :param board:
+    :param ticker:
+    :param client:
+    :param buysell:
+    :param quantity:
+    :param price:
+    :param cond_type:
+    :param cond_val:
+    :param valid_after:
+    :param valid_before:
+    :param bymarket:
+    :param usecredit:
+    :return:
+    """
     root = et.Element("command", {"id": "newcondorder"})
     return NotImplemented
 
 
-# Forts only
 def get_forts_position(client):
+    """
+    Запрос позиций клиента по FORTS.
+    :param client:
+        Идентификатор клиента.
+    :return:
+        Результат отправки команды.
+    """
     root = et.Element("command", {"id": "get_forts_position", "client": client})
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
-# Forts only
 def get_limits_forts(client):
+    """
+    Запрос лимитов клиента ФОРТС.
+    :param client:
+        Идентификатор клиента.
+    :return:
+        Результат отправки команды.
+    """
     root = et.Element("command", {"id": "get_client_limits", "client": client})
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
 def get_servtime_diff():
+    """
+    Получить разницу между серверным временем и временем на компьютере пользователя (синхронная).
+    :return:
+        Результат команды с разницей времени.
+    """
     return NotImplemented
 
 
 def change_pass(oldpass, newpass):
-    return NotImplemented
+    """
+    Смена пароля (синхронная).
+    :param oldpass:
+        Старый пароль.
+    :param newpass:
+        Новый пароль.
+    :return:
+        Результат команды.
+    """
+    root = et.Element("command", {"id": "get_securities_info", "oldpass": oldpass, "newpass": newpass})
+    return __send_command(et.tostring(root, encoding="utf-8"))
 
 
 def get_version():
-    # Needs new struct connector_version
-    return NotImplemented
+    """
+    Получить версию коннектора (синхронная).
+    :return:
+        Версия коннектора.
+    """
+    root = et.Element("command", {"id": "get_connector_version"})
+    return ConnectorVersion.parse(__get_message(txml_dll.SendCommand(et.tostring(root, encoding="utf-8")))).version
 
 
 def get_sec_info(market, seccode):
-    return NotImplemented
+    """
+    Запрос на получение информации по инструменту.
+    :param market:
+        Внутренний код рынка.
+    :param seccode:
+        Код инструмента.
+    :return:
+        Результат отправки команды.
+    """
+    root = et.Element("command", {"id": "get_securities_info"})
+    sec = et.Element("security")
+    sec.append(__elem("market", str(market)))
+    sec.append(__elem("seccode", seccode))
+    root.append(sec)
+    return __send_command(et.tostring(root, encoding="utf-8"))
 
 
-# Fort only? Not sure
 def move_order(id, price, quantity=0, moveflag=0):
+    """
+    Отредактировать заявку.
+    :param id:
+        Идентификатор заменяемой заявки FORTS.
+    :param price:
+        Цена.
+    :param quantity:
+        Количество, лотов.
+    :param moveflag:
+        0: не менять количество;
+        1: изменить количество;
+        2: при несовпадении количества с текущим – снять заявку.
+    :return:
+        Результат отправки команды.
+    """
     root = et.Element("command", {"id": "moveorder"})
     root.append(__elem("transactionid", str(id)))
     root.append(__elem("price", str(price)))
@@ -351,8 +475,16 @@ def move_order(id, price, quantity=0, moveflag=0):
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
-# What diff with get_client_limits?
 def get_limits_tplus(client, securities):
+    """
+    Получить лимиты Т+.
+    :param client:
+        Идентификатор клиента.
+    :param securities:
+        Список пар (market, seccode) на которые нужны лимиты.
+    :return:
+        Результат отправки команды.
+    """
     root = et.Element("command", {"id": "get_max_buy_sell_tplus", "client": client})
     for (market, code) in securities:
         sec = et.Element("security")
@@ -362,6 +494,12 @@ def get_limits_tplus(client, securities):
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
-# Not used
 def get_portfolio_mct(client):
+    """
+    Получить портфель МСТ/ММА. Не реализован пока.
+    :param client:
+        Идентификатор клиента.
+    :return:
+        Результат отправки команды.
+    """
     return NotImplemented
