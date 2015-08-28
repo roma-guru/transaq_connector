@@ -11,14 +11,15 @@
     Синхронные вспомогательные команды помечены отдельно.
 """
 import ctypes, logging
-import platform
+import platform, os
 import lxml.etree as et
 from structures import *
 log = logging.getLogger("transaq.connector")
 
 callback_func = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_char_p)
 global_handler = None
-txml_dll = ctypes.WinDLL("txmlconnector64.dll" if platform.machine() == 'AMD64' else 'txmlconnector.dll')
+path = os.path.dirname(__file__) + os.sep
+txml_dll = ctypes.WinDLL(path + ("txmlconnector64.dll" if platform.machine() == 'AMD64' else 'txmlconnector.dll') )
 connected = False
 
 
