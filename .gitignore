@@ -4,3 +4,5 @@
 Logs/
 .idea/
 pair/
+build/
+docs/build/

@@ -17,7 +17,13 @@ import lxml.etree as et
 from structures import *
 log = logging.getLogger("transaq.connector")
 
+callback_func = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_char_p)
+global_handler = None
+txml_dll = ctypes.WinDLL("txmlconnector64.dll" if platform.machine() == 'AMD64' else 'txmlconnector.dll')
+connected = False
 
+
+@callback_func
 def callback(msg):
     """
     Функция, вызываемая коннектором при входящих сообщениях.
@@ -86,13 +92,6 @@ def callback(msg):
     return True
 
 
-callback_func = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_char_p)
-callback_func = callback_func(callback)
-global_handler = None
-txml_dll = ctypes.WinDLL("txmlconnector64.dll" if platform.machine()=='AMD64' else 'txmlconnector.dll')
-connected = False
-
-
 class TransaqException(Exception):
     """
     Класс исключений, связанных с коннектором.
@@ -137,7 +136,7 @@ def initialize(logdir, loglevel, msg_handler):
     if err != 0:
         msg = __get_message(err)
         raise TransaqException(Error.parse(msg))
-    if not txml_dll.SetCallback(callback_func):
+    if not txml_dll.SetCallback(callback):
         raise TransaqException("Callback was not installed")
 
 
