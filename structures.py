@@ -22,6 +22,7 @@ _my_classes = []
 def parse(xml):
     """
     Общая функция парсинга xml-структур.
+
     :param xml:
         Текст XML.
     :return:
@@ -1005,8 +1006,8 @@ class MarketOrderAbility(MyXmlObject):
 class ClientLimitsT0(MyXmlObject):
     """
     Максимальная покупка/продажа и плечо для T0.
-    .. deprecated::
-        Вроде Т0 больше не используется для фондовой секции.
+
+    .. deprecated:: Вроде Т0 больше не используется для фондовой секции.
     """
     ROOT_NAME = 'leverage_control'
     client = StringField('@client')

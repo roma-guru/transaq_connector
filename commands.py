@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Модуль с основными командами Транзак Коннектора.
-<a href="http://www.finam.ru/howtotrade/tconnector/">Документация коннектора</a>
+Модуль с основными командами Транзак Коннектора
+(см. http://www.finam.ru/howtotrade/tconnector/).
 
-@author: Roma
-.. warning::
+.. note::
     Практически все команды асинхронны!
     Это означает что они возвращают структуру CmdResult, которая говорит лишь
     об успешности отправки команды на сервер, но не её исполнения там.
-    Результат исполнения приходит позже в зарегистрированный командой initialize хэндлер.
+    Результат исполнения приходит позже в зарегистрированный командой *initialize()* хэндлер.
     Синхронные вспомогательные команды помечены отдельно.
 """
 import ctypes, logging
@@ -27,6 +26,7 @@ connected = False
 def callback(msg):
     """
     Функция, вызываемая коннектором при входящих сообщениях.
+
     :param msg:
         Входящее сообщение Транзака.
     :return:
@@ -126,6 +126,7 @@ def __send_command(cmd):
 def initialize(logdir, loglevel, msg_handler):
     """
     Инициализация коннектора (синхронная).
+
     :param logdir:
     :param loglevel:
     :param msg_handler:
@@ -143,6 +144,7 @@ def initialize(logdir, loglevel, msg_handler):
 def uninitialize():
     """
     Де-инициализация коннектора (синхронная).
+
     :return:
     """
     if connected:
@@ -316,6 +318,7 @@ def get_portfolio(client):
 def get_markets():
     """
     Получить список рынков.
+
     :return:
         Результат отправки команды.
     """
@@ -326,6 +329,7 @@ def get_markets():
 def get_history(board, seccode, period, count, reset=True):
     """
     Выдать последние N свечей заданного периода, по заданному инструменту.
+
     :param board:
         Идентификатор режима торгов.
     :param seccode:
@@ -357,6 +361,7 @@ def new_condorder(board, ticker, client, buysell, quantity, price,
                   bymarket=True, usecredit=True):
     """
     Новая условная заявка.
+
     :param board:
     :param ticker:
     :param client:
@@ -378,6 +383,7 @@ def new_condorder(board, ticker, client, buysell, quantity, price,
 def get_forts_position(client):
     """
     Запрос позиций клиента по FORTS.
+
     :param client:
         Идентификатор клиента.
     :return:
@@ -390,6 +396,7 @@ def get_forts_position(client):
 def get_limits_forts(client):
     """
     Запрос лимитов клиента ФОРТС.
+
     :param client:
         Идентификатор клиента.
     :return:
@@ -402,6 +409,7 @@ def get_limits_forts(client):
 def get_servtime_diff():
     """
     Получить разницу между серверным временем и временем на компьютере пользователя (синхронная).
+
     :return:
         Результат команды с разницей времени.
     """
@@ -411,6 +419,7 @@ def get_servtime_diff():
 def change_pass(oldpass, newpass):
     """
     Смена пароля (синхронная).
+
     :param oldpass:
         Старый пароль.
     :param newpass:
@@ -425,6 +434,7 @@ def change_pass(oldpass, newpass):
 def get_version():
     """
     Получить версию коннектора (синхронная).
+
     :return:
         Версия коннектора.
     """
@@ -435,6 +445,7 @@ def get_version():
 def get_sec_info(market, seccode):
     """
     Запрос на получение информации по инструменту.
+
     :param market:
         Внутренний код рынка.
     :param seccode:
@@ -453,6 +464,7 @@ def get_sec_info(market, seccode):
 def move_order(id, price, quantity=0, moveflag=0):
     """
     Отредактировать заявку.
+
     :param id:
         Идентификатор заменяемой заявки FORTS.
     :param price:
@@ -477,6 +489,7 @@ def move_order(id, price, quantity=0, moveflag=0):
 def get_limits_tplus(client, securities):
     """
     Получить лимиты Т+.
+
     :param client:
         Идентификатор клиента.
     :param securities:
@@ -496,6 +509,7 @@ def get_limits_tplus(client, securities):
 def get_portfolio_mct(client):
     """
     Получить портфель МСТ/ММА. Не реализован пока.
+
     :param client:
         Идентификатор клиента.
     :return:
