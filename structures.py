@@ -1142,6 +1142,7 @@ class ClientPortfolioMCT(MyXmlObject):
     """
     Клиентский портфель MCT/MMA.
     """
+	ROOT_NAME = 'portfolio_mct'
     # Идентификатор клиента
     id = client = StringField('@client')
     # Валюта портфеля клиента
@@ -1170,10 +1171,21 @@ class ClientPortfolioMCT(MyXmlObject):
         pass
 
 
-# Объекты новостей, не используются
 class NewsHeader(MyXmlObject):
-    pass
+    """
+    Новостной заголовок.
+    """
+    ROOT_NAME = 'news_header'
+    id = IntegerField('id')
+    time = DateTimeField('timestamp', timeformat)
+    source = StringField('source')
+    title = StringField('title')
 
 
 class NewsBody(MyXmlObject):
-    pass
+    """
+    Тело новости.
+    """
+    ROOT_NAME = 'news_body'
+    id = IntegerField('id')
+    text = StringField('text')
