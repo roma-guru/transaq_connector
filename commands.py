@@ -86,8 +86,17 @@ def callback(msg):
     elif isinstance(obj, ClientLimitsTPlus):
         log.info(u"Получил лимиты Т+")
         log.debug(obj)
+    elif isinstance(obj, NewsHeader):
+        log.info(u"Получил новость %s: %s", obj.source, obj.title)
+        log.debug(obj)
+    elif isinstance(obj, SecInfoUpdate):
+        log.info(u"Получил обновление по инструменту %s", obj.seccode)
+        log.debug(obj)
+    elif isinstance(obj, TextMessagePacket):
+        for m in obj.items:
+            log.info(u"Получил сообщение от %s: %s", m.sender, m.text)
     else:
-        log.warn(u"Получил какую-то мутную тему (типа %s)" % str(type(obj)))
+        log.debug(u"Получил объект типа %s" % str(type(obj)))
     if global_handler:
         global_handler(obj)
     return True

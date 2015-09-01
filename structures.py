@@ -10,7 +10,7 @@ from eulxml.xmlmap import *
 from eulxml.xmlmap.fields import Field, DateTimeMapper
 import sys, inspect, logging
 
-log = logging.getLogger('transaq.structures')
+log = logging.getLogger("transaq.connector")
 # Формат дат/времени используемый Транзаком
 timeformat = "%d.%m.%Y %H:%M:%S"
 # Кодировка для вывода, cp866 - виндовая консоль, utf8 - нормальная консоль
@@ -1142,7 +1142,7 @@ class ClientPortfolioMCT(MyXmlObject):
     """
     Клиентский портфель MCT/MMA.
     """
-	ROOT_NAME = 'portfolio_mct'
+    ROOT_NAME = 'portfolio_mct'
     # Идентификатор клиента
     id = client = StringField('@client')
     # Валюта портфеля клиента
