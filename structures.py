@@ -13,8 +13,6 @@ import sys, inspect, logging
 log = logging.getLogger("transaq.connector")
 # Формат дат/времени используемый Транзаком
 timeformat = "%d.%m.%Y %H:%M:%S"
-# Кодировка для вывода, cp866 - виндовая консоль, utf8 - нормальная консоль
-encoding = 'utf8'
 # Список классов, ленивая инициализация при парсинге
 _my_classes = []
 
@@ -80,10 +78,8 @@ class MyXmlObject(XmlObject):
         fields = []
         for (name, val) in filter(lambda (name, val): isinstance(val, Field), inspect.getmembers(cls)):
             val = self.__getattribute__(name)
-            if isinstance(val, unicode):
-                val = val.encode(encoding)
             if val:
-                fields.append("%s=%s" % (name, str(val)))
+                fields.append("%s=%s" % (name, unicode(val)))
         return "%s(%s)" % (cls.__name__, ', '.join(fields))
 
 
@@ -183,7 +179,7 @@ class ServerStatus(Entity):
             return "ServerStatus(id=%d,tz=%s,conn=%s)" % \
                    (self.id, self.timezone, self.connected)
         else:
-            return "ServerStatus(ERROR, text=%s)" % self.text.encode(encoding)
+            return "ServerStatus(ERROR, text=%s)" % self.text
 
 
 class ClientAccount(Entity):
@@ -1059,7 +1055,7 @@ class Board(Entity):
     type = IntegerField('type')
 
     def __str__(self):
-        return self.name.encode(encoding)
+        return self.name
 
 
 class BoardPacket(Packet):

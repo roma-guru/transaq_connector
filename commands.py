@@ -33,7 +33,7 @@ def callback(msg):
     :return:
         True если все обработал.
     """
-    obj = parse(msg)
+    obj = parse(msg.decode('utf8'))
     if isinstance(obj, Error):
         log.error(u"Чета не то ваще: %s" % obj.text)
         raise TransaqException(obj.text)
@@ -113,7 +113,7 @@ def __get_message(ptr):
     # Достать сообщение из нативной памяти.
     msg = ctypes.string_at(ptr)
     txml_dll.FreeMemory(ptr)
-    return msg
+    return unicode(msg, 'utf8')
 
 
 def __elem(tag, text):
