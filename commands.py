@@ -18,7 +18,12 @@ log = logging.getLogger("transaq.connector")
 
 callback_func = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_char_p)
 global_handler = None
-path = os.path.dirname(__file__) + os.sep
+path = ""
+if __file__ is not None:
+    path = os.path.dirname(__file__)
+    if path != "":
+        path += os.sep
+
 txml_dll = ctypes.WinDLL(path + ("txmlconnector64.dll" if platform.machine() == 'AMD64' else 'txmlconnector.dll') )
 connected = False
 encoding = sys.stdout.encoding
