@@ -36,68 +36,16 @@ def callback(msg):
     """
     obj = parse(msg.decode('utf8'))
     if isinstance(obj, Error):
-        log.error(u"Чета не то ваще: %s" % obj.text)
+        log.error(u"Траблы: %s" % obj.text)
         raise TransaqException(obj.text.encode(encoding))
     elif isinstance(obj, ServerStatus):
         log.info(u"Соединен с серваком: %s" % obj.connected)
         if obj.connected == 'error':
             log.warn(u"Ёпта, ошибка соединения: %s" % obj.text)
         log.debug(obj)
-    elif isinstance(obj, ClientAccount):
-        log.info(u"Подключил аккаунт: %s", obj.id)
-        if not obj.active:
-            log.warn(u"Гады, аккаунт удаляют!")
-        log.debug(obj)
-    elif isinstance(obj, BoardPacket):
-        log.info(u"Получил список борд(режимов)")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, MarketPacket):
-        log.info(u"Получил список рынков")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, CandleKindPacket):
-        log.info(u"Получил список интервалов свечек")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, SecurityPacket):
-        log.info(u"Получил список инструментиков")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, SecurityPitPacket):
-        log.info(u"Получил список инструментиков")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, CreditAbility):
-        log.info(u"Получил статус кредитов")
-        log.debug(obj)
-    elif isinstance(obj, PositionPacket):
-        log.info(u"Получил список позиций")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, ClientPortfolio):
-        log.info(u"Получил свой портфель Т+")
-        if len(obj.items): log.debug(obj)
-    elif isinstance(obj, ClientOrderPacket):
-        log.info(u"Получил список текущих заявочек")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, ClientTradePacket):
-        log.info(u"Получил список своих совершенных сделок")
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, HistoryCandlePacket):
-        log.info(u"Получил исторические свечки по инструменту %s" % obj.seccode)
-        if len(obj.items): log.debug(obj.items[0])
-    elif isinstance(obj, ClientLimitsForts):
-        log.info(u"Получил лимиты ФОРТС")
-        log.debug(obj)
-    elif isinstance(obj, ClientLimitsTPlus):
-        log.info(u"Получил лимиты Т+")
-        log.debug(obj)
-    elif isinstance(obj, NewsHeader):
-        log.info(u"Получил новость %s: %s", obj.source, obj.title)
-        log.debug(obj)
-    elif isinstance(obj, SecInfoUpdate):
-        log.info(u"Получил обновление по инструменту %s", obj.seccode)
-        log.debug(obj)
-    elif isinstance(obj, TextMessagePacket):
-        for m in obj.items:
-            log.info(u"Получил сообщение от %s: %s", m.sender, m.text)
     else:
-        log.debug(u"Получил объект типа %s" % str(type(obj)))
+        log.info(u"Получил объект типа %s" % str(type(obj)))
+        log.debug(obj)
     if global_handler:
         global_handler(obj)
     return True
@@ -149,7 +97,7 @@ def initialize(logdir, loglevel, msg_handler):
         msg = __get_message(err)
         raise TransaqException(Error.parse(msg).text.encode(encoding))
     if not txml_dll.SetCallback(callback):
-        raise TransaqException("Callback was not installed")
+        raise TransaqException(u"Коллбэк не установился")
 
 
 def uninitialize():
@@ -173,7 +121,6 @@ def connect(login, password, server, min_delay=100):
     root.append(__elem("password", password))
     root.append(__elem("host", host))
     root.append(__elem("port", port))
-    # root.append(__elem("loglevel", str(loglevel)))
     root.append(__elem("rqdelay", str(min_delay)))
     return __send_command(et.tostring(root, encoding="utf-8"))
 
@@ -527,3 +474,25 @@ def get_portfolio_mct(client):
         Результат отправки команды.
     """
     return NotImplemented
+
+def get_united_portfolio(client, union=None):
+    """
+    Получить единый портфель.
+    В команде необходимо задать только один из параметров (client или union).
+
+    :param client:
+        Идентификатор клиента.
+    :param union:
+        Идентификатор юниона.
+    :return:
+        Результат отправки команды.
+    """
+    params = {"id": "get_united_portfolio"}
+    if client is not None:
+        params["client"] = client
+    elif union is not None:
+        params["union"] = union
+    else:
+        raise ValueError("please specify client OR union")
+    root = et.Element("command", params)
+    return __send_command(et.tostring(root, encoding="utf-8"))
