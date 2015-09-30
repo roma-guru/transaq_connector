@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 from distutils.core import setup
-import platform
+import platform, os
+from urllib2 import urlopen
+from warnings import warn
 
-dll_file = "txmlconnector64.dll" if platform.machine() == 'AMD64' else 'txmlconnector.dll'
+assert(platform.os == 'Windows')
+
+url = "http://www.finam.ru/files/"
+dll_file = 'txmlconnector64.dll' if platform.machine() == 'AMD64' else 'txmlconnector.dll'
+if not os.path.exists(dll_file):
+    warn("Transaq Connector DLL not found, downloading from Finam")
+    open(dll_file, 'wb').write(urlopen(url + dll_file).read())
+
 setup(
     name='transaq_connector',
     version='1.0',
