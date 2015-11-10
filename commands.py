@@ -97,6 +97,8 @@ def initialize(logdir, loglevel, msg_handler):
     """
     global global_handler
     global_handler = msg_handler
+    if not os.path.exists(logdir):
+        os.mkdir(logdir)
     err = txml_dll.Initialize(logdir + "\0", loglevel)
     if err != 0:
         msg = __get_message(err)
