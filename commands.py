@@ -392,7 +392,7 @@ def change_pass(oldpass, newpass):
     :return:
         Результат команды.
     """
-    root = et.Element("command", {"id": "get_securities_info", "oldpass": oldpass, "newpass": newpass})
+    root = et.Element("command", {"id": "change_pass", "oldpass": oldpass, "newpass": newpass})
     return __send_command(et.tostring(root, encoding="utf-8"))
 
 
